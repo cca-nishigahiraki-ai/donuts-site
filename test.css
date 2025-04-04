@@ -20,8 +20,7 @@ div.box2 {
     display : flex;
     background-color : blue;
     padding :10px;
-    border : 5px solid red;
-}
+ }
 div.area {
     width : 100%;
     background-color : yellow;
