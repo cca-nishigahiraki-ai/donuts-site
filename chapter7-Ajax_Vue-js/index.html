@@ -17,10 +17,47 @@
 
 		<div class="container">
 			<div id="img_unit">
+				<div class="photo" v-for="Photo in Photos">
+					<img :src="Photo.path">
+					<div class="inner"><p>{{Photo.caption}}<span>{{Photo.name}}</span></p></div>
+				</div>
 			</div>
 		</div> <!-- container -->
 
+		<div id="vue_unit">
+			{{ message }}
+		</div>
+		<div id="vue_unit2">
+			{{ message2 }}
+		</div>
+
 		<script src="js/jquery.min.js"></script>
+		<script src="https://unpkg.com/vue@3.5.13/dist/vue.global.js"></script>
+		<script>
+			// vue.js3 の記述
+			const { createApp, ref } = Vue;
+			createApp({
+				setup() {
+					const message = ref('vue.jsで書き換えました');
+					return { message };
+				}
+			}).mount('#vue_unit');
+			createApp({
+				setup() {
+					const message2 = ref('testです');
+					return { message2 };
+				}
+			}).mount('#vue_unit2');
+		</script>
+		<!-- script>
+		 	// vue.js2 の記述
+			var app = new Vue({
+				el : '#vue_unit',
+				data : {
+					message : 'vue.jsで書き換えました'
+				}
+			});
+		</script -->
 		<script>
 			$.getJSON('https://h2o-space.com/htmlbook/images.php', function(data) {
 				for(var i=0; i<data.length; i++) {

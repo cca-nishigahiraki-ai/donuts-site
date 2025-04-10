@@ -24,44 +24,33 @@
 			</div>
 		</div> <!-- container -->
 		<script>
-			var images = [
-				{
-					"path" : "img/img01.jpg",
-					"name" : "sansaisan",
-					"caption" : "こっちは貫禄ありすぎ"
-				},
-				{
-					"path" : "img/img02.jpg",
-					"name" : "yukky_13dream",
-					"caption" : "年明け富士山"
-				},
-				{
-					"path" : "img/img03.jpg",
-					"name" : "maako",
-					"caption" : "空と大地の境界線って、どのあたり？"
-				},
-			];
-			
-			var img;
-			var caption;
-			var div;
+			var ajax = new XMLHttpRequest();
+			ajax.open('GET', 'https://h2o-space.com/htmlbook/images.php');
+			ajax.responseType = 'json';
+			ajax.send(null);
 
-			for(let i=0; i<images.length; i++) {
-				img = document.createElement('img');
-				img.setAttribute('src', images[i].path);
+			ajax.onreadystatechange = function() {
+				console.log('redasyState :: ', ajax.readyState);
+				if(ajax.readyState === XMLHttpRequest.DONE && ajax.status ===200) {
+					for(var i=0; i<this.response.length; i++) {
+						var data = this.response[i];
 
-				caption = document.createElement('div');
-				caption.className = 'inner';
-				caption.innerHTML = '<p>' + images[i].caption + '<span>' + images[i].name + '</span></p>';
+						var img = document.createElement('img');
+						img.setAttribute('src', data.path);
 
-				div = document.createElement('div');
-				div.className = 'photo';
-				div.appendChild(img);
-				div.appendChild(caption);
+						var caption = document.createElement('div');
+						caption.className = 'inner';
+						caption.innerHTML = '<p>' + data.caption + '<span>' + data.name + '</span></p>';
 
-				document.getElementById('img_unit').appendChild(div);
-			}
-			//alert(images[0].caption);
+						var div = document.createElement('div');
+						div.className = 'photo';
+						div.appendChild(img);
+						div.appendChild(caption);
+
+						document.getElementById('img_unit').appendChild(div);
+					}
+				}
+			};
 		</script>
 	</body>
 </html>
