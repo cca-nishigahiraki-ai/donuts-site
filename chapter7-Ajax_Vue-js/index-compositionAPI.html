@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+
+		<title>My Photos</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+
+	<body>
+		<header>
+			<h1>My Photos</h1>
+		</header>
+
+		<p class="top">importを使った記法</p>
+		<div class="container">
+			<div id="img_unit">
+				<!-- v-forの書式 v-for="変数名 in 配列名" -->
+				<div class="photo" v-for="Photo in Photos" >
+				<!--div class="photo"-->
+					<!-- 属性でのプレースホルダーの記述 :属性名="プレースフォルダのキー(波括弧なし)" -->
+					<!-- :src は短縮記法、v-bind:srcの事 -->
+					<img :src="Photo.path">
+					<div class="inner"><p>{{Photo.caption}}<span>{{Photo.name}}</span></p></div>
+				</div>
+				{{message}}
+			</div>
+		</div> <!-- container -->
+		<!-- -->
+		<script src="js/jquery.min.js"></script>
+		<!-- -->
+		<script type="module">
+			// vue.js3(Composition API) の記述 importを使う記法
+			import { createApp, ref, onMounted } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+			//
+			const Photos = ref(null);
+			const message = ref('default');
+			//
+			const app = createApp({
+				setup() {
+					loadJSONbyJQuery( Photos ); // <- setup()に記載するとoptionsAPIでのcreatedと同等
+					onMounted(function() { message.value = 'mounted'; });
+					return {
+						Photos, message
+					}
+				}
+			});
+			app.mount('#img_unit');
+			//
+			// jQueryでJSONを拾う関数
+			// inputRef : refを設定した変数
+			function loadJSONbyJQuery( inputRef ) {
+				$.getJSON('https://h2o-space.com/htmlbook/images.php', function(data) {
+					console.log('@getJSON');
+					inputRef.value = data;
+				});
+			}
+		</script>
+		<!--  -->
+		<p>importを使わない記法</p>
+		<div class="container">
+			<div id="img_unit2">
+				<!-- v-forの書式 v-for="変数名 in 配列名" -->
+				<div class="photo" v-for="Photo in Photos2" >
+				<!--div class="photo"-->
+					<!-- 属性でのプレースホルダーの記述 :属性名="プレースフォルダのキー(波括弧なし)" -->
+					<!-- :src は短縮記法、v-bind:srcの事 -->
+					<img :src="Photo.path">
+					<div class="inner"><p>{{Photo.caption}}<span>{{Photo.name}}</span></p></div>
+				</div>
+				{{ message2 }}
+			</div>
+		</div> <!-- container -->
+		<!-- import 使わない記法 -->
+		<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+		<script>
+			// vue.js3(Composition API) の記述 importを使う記法
+			const { createApp, ref } = Vue;
+			const app2 = createApp({
+				setup() {
+					var Photos2 = ref(null);
+					var message2 = ref('default2');
+					//
+					$.getJSON('https://h2o-space.com/htmlbook/images.php', function(data) {
+						Photos2.value = data;
+					});
+					//
+					return {
+						Photos2, message2
+					}
+				}
+			});
+			app2.mount('#img_unit2');
+		</script>
+	</body>
+</html>

@@ -54,3 +54,7 @@ header h1 {
 .inner span {
 	margin-left : 10px;
 }
+
+p.top {
+	margin-top : 50px;
+}

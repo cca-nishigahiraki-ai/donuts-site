@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue Composition API Example</title>
+</head>
+<body>
+
+  <div id="app"></div>
+
+  <!-- Vue.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+
+  <script>
+    const App = {
+      setup() {
+        const message = Vue.ref('Component has been mounted!');
+        const updateCount = Vue.ref(0);
+
+        const updateComponent = () => {
+          updateCount.value++;
+          message.value = 'Component has been updated!';
+        };
+
+        Vue.onMounted(() => {
+          console.log('Mounted: ' + message.value);
+        });
+
+        Vue.onUpdated(() => {
+          console.log('Updated: ' + message.value + ' (Update Count: ' + updateCount.value + ')');
+        });
+
+        return {
+          message,
+          updateComponent,
+        };
+      },
+      template: `
+        <div>
+          <p>{{ message }}</p>
+          <button @click="updateComponent">Update Component</button>
+        </div>
+      `,
+    };
+
+    const app = Vue.createApp(App);
+    app.mount('#app');
+  </script>
+</body>
+</html>

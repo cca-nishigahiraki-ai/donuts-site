@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+
+		<title>My Photos</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+
+	<body>
+		<!-- header>
+			<h1>My Photos</h1>
+		</header -->
+		<div id="app">
+			<div>クリック数：{{ count }}</div>
+			<div>のこり回数：{{ Math.max(10-count, 0) }}</div>
+			<button type="button" @click="onButtonClick">増やす</button>
+			<div v-if="open">
+				<h2>100回に到達しました！</h2>
+				<label>名前：<input type="text" ref="inputElem" /></label>
+				<button type="button">送信</button>
+			</div>
+			<script type="module">
+				import { createApp, ref, watch, nextTick, onUpdated } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+
+				let count = ref(0);
+				let open = ref(false);
+				let inputElem = ref(null);
+
+				createApp({
+					setup() {
+						
+						watch(count, async () => {
+							if(count.value === 10) {
+								open.value = true;
+								await nextTick();
+								inputElem.value.focus();
+							}
+						});
+						return {
+							count, open, inputElem, onButtonClick: () => count.value++,
+						};
+						
+					}
+				}).mount('#app');
+			</script>
+		</div>
+	</body>
+</html>
