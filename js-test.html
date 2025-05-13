@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="reset.css" type="text/css">
+        <link rel="stylesheet" href="test.css" type="text/css">
+    </head>
+    <body>
+		<script>
+			`use strict`;
+			let list = [
+				{name:'a',price:1000},
+				{name:'b',price:2000},
+				{name:'c',price:3000},
+				{name:'d',price:4000},
+				{name:'e',price:5000},
+				{name:'f',price:6000},
+				{name:'g',price:7000},
+				{name:'h',price:8000},
+				{name:'i',price:9000},
+				{name:'j',price:0}
+			];
+			list.forEach((item)=>{item.price=Math.floor(Math.random()*1000);});
+			console.log(list);
+			let filteredList = list.filter(function(val,id,ary){
+				return true;
+			});
+			console.log(filteredList);
+			list[5].name='test';
+			filteredList[6].name='filtered';
+			
+			let sortList = list.toSorted(function(a,b){
+				if(a.price<b.price){return 1;}
+				else if(a.price>b.price){return -1;}
+				else{return 0;}
+			});
+			console.log(sortList);
+			console.log(list);
+		</script>
+    </body>
+</html>
